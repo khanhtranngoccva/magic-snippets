@@ -1,0 +1,63 @@
+.windowInner {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    font-size: 0.75rem;
+    overflow: auto;
+    flex: 1;
+}
+
+.windowContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    overflow: hidden;
+}
+
+.windowPane {
+    flex: none;
+    display: flex;
+    color: white;
+    padding-inline: 0.5rem;
+    background: #737373;
+    align-items: center;
+    column-gap: 0.25rem;
+}
+
+.windowPane h2 {
+    font-size: 1rem;
+    margin-left: 0.25rem;
+    margin-block: 0.25rem;
+}
+
+.decorativeButton {
+    width: 0.75rem;
+    aspect-ratio: 1/1;
+    background: #ff4400;
+    border-radius: 50%;
+}
+
+.decorativeButton:nth-of-type(2) {
+    background: #ff8000;
+}
+
+.decorativeButton:nth-of-type(3) {
+    background: #3fe73f;
+}
+
+.windowInner ::-webkit-scrollbar {
+    background: rgba(128, 128, 128, 0.58);
+    height: 10px;
+    width: 10px;
+}
+
+.windowInner ::-webkit-scrollbar-thumb {
+    background: rgba(173, 173, 173, 0.5);
+    height: 10px;
+}
+
+
+::-webkit-scrollbar-corner {
+    background: #2b2b2b;
+}
