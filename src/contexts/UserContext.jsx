@@ -10,7 +10,6 @@ export function UserContextWrapper(props) {
 
     React.useEffect(() => {
         api.getJSON("/api/auth/currentUser").then(result => {
-            console.log(result);
             setUserInfo(result.data);
         });
     }, []);
@@ -19,7 +18,6 @@ export function UserContextWrapper(props) {
         userInfo,
     }
 
-    console.log(contextObject);
     return <UserContext.Provider value={contextObject}>
         {props.children}
     </UserContext.Provider>;

@@ -10,7 +10,7 @@ const SnippetSchema = new mongoose.Schema({
     name: {
         required: true,
         type: String,
-        default: "An unnamed magic snippet",
+        default: "An unnamed magic snippet!",
     },
     likes: {
         required: true,
@@ -37,6 +37,11 @@ const SnippetSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
+    blogContent: {
+        required: true,
+        type: String,
+        default: "",
+    }
 });
 
 const Snippet = database.model("Snippet", SnippetSchema);

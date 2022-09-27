@@ -15,6 +15,7 @@ const googleStrategy = new GoogleStrategy({
             const newUser = await User.create({
                 email: currentEmail,
                 name: profile.name,
+                profilePicture: profile.profilePicture,
             });
             next(null, newUser);
         }

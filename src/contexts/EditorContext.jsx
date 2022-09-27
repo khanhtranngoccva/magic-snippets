@@ -4,46 +4,48 @@ import api from "../helpers/api";
 
 export const EditorContext = React.createContext({
     snippetData: {
+        _name: null,
         name: null,
         _contents: {
             HTMLSnippet: null,
             CSSSnippet: null,
             JSSnippet: null,
+            blogContent: null,
         },
         contents: {},
     },
     snippetLastSave: {
-        name: null,
+        _name: null,
+        creator: null,
         _contents: {
             HTMLSnippet: null,
             CSSSnippet: null,
             JSSnippet: null,
+            blogContent: null,
         },
     },
+    currentField: "HTMLSnippet",
+    snippetID: null,
     saveSnippet: null,
     deleteSnippet: null,
+    blogMode: false,
+    setBlogMode: undefined,
 });
 
 export default function EditorContextWrapper(props) {
     const params = {useParams};
 
+    const [blogMode, setBlogMode] = React.useState(false);
     const [snippetLastSave, setSnippetLastSave] = React.useState({
-        name: null,
-        _contents: {
-            HTMLSnippet: null,
-            CSSSnippet: null,
-            JSSnippet: null,
-        },
+        _name: null,
+        creator: null,
+        _contents: {},
     });
     const [snippetData, setSnippetData] = React.useState({
-        name: null,
-        _contents: {
-            HTMLSnippet: null,
-            CSSSnippet: null,
-            JSSnippet: null,
-        },
-        contents: {},
+        _name: null,
+        _contents: {},
     });
+    const [currentField, setCurrentField] = React.useState("HTMLSnippet");
 
     React.useEffect(() => {
         setSnippetData(JSON.parse(JSON.stringify(snippetLastSave)));
@@ -52,7 +54,6 @@ export default function EditorContextWrapper(props) {
     const deleteSnippet = React.useCallback(async (data) => {
 
     }, [params.snippetID]);
-
     const saveSnippet = React.useCallback(async (data) => {
         if (!params.snippetID) {
             await api.sendJSON("/api/snippets/create", {
@@ -77,12 +78,28 @@ export default function EditorContextWrapper(props) {
             return true;
         }
     });
+    try {
+        Object.defineProperty(snippetData, "name", {
+            get() {
+                return this._name;
+            },
+            set(data) {
+                this._name = data;
+                setSnippetData({...this});
+            }
+        })
+    } catch (e) {}
 
     const contextObject = {
         saveSnippet,
         deleteSnippet,
         snippetData,
         snippetLastSave,
+        currentField,
+        setCurrentField,
+        blogMode,
+        setBlogMode,
+        snippetID: params.snippetID ?? null,
     }
 
     return <EditorContext.Provider value={contextObject}>

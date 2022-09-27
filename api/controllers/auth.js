@@ -1,13 +1,12 @@
 module.exports = {
     getUser: function(req, res) {
         const user = req.user;
-        console.log(user);
         let processedUserInfo;
         if (user) {
             processedUserInfo = {
                 name: user.name,
                 email: user.email,
-                username: user.userName,
+                userName: user.userName,
                 displayName: user.displayName,
                 profilePicture: user.profilePicture,
             };

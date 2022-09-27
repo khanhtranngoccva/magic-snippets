@@ -186,7 +186,6 @@ module.exports = {
     },
     previewSnippet: async (req, res) => {
         try {
-            console.log("Previewing.", req);
             res.render(path.join(__dirname, "..", "views", "preview.ejs"), {
                 HTMLSnippet: req.body.HTMLSnippet,
                 CSSSnippet: req.body.CSSSnippet,

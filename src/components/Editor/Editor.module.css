@@ -8,14 +8,44 @@
     display: grid;
     width: 100%;
     grid-gap: 0.5rem;
-    background: #171717;
+    background: var(--accent1);
     height: 20rem;
     padding: 0.5rem;
+}
+
+.codeWindow {
+    display: none;
+}
+
+.codeWindow.smallScreenVisible {
+    display: flex;
+}
+
+.blogEditorContainer {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+    column-gap: 0.5rem;
+    padding: 0.5rem;
+    background: var(--accent1);
+}
+
+.containerElement {
+    flex: 1 50%;
+}
+
+.blogWindow {
+    height: 100%;
+    display: flex;
 }
 
 
 @media only all and (min-width: 800px) {
     .codeWindowContainer {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .codeWindow {
+        display: flex;
     }
 }

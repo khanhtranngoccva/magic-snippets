@@ -1,0 +1,27 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    overflow: hidden;
+    border-radius: 0.25rem;
+    background: var(--secondary);
+}
+
+.previewFrameContainer {
+    aspect-ratio: 16/9;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.markdownPreviewContainer {
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.windowInner {
+    overflow: auto;
+    width: 100%;
+    flex: 1;
+}

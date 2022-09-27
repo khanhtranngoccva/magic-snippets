@@ -1,0 +1,25 @@
+.inputContainer {
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.reusableInput {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.reusableInputSpan {
+    opacity: 0;
+    display: inline;
+    color: white;
+    flex-shrink: 1;
+    margin-block: 0;
+    overflow: hidden;
+    position: relative;
+}

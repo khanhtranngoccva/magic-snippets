@@ -12,18 +12,19 @@ const googleStrategy = require("../auth/googleStrategy");
 function applyPassport(target) {
     const newSession = session({
         secret: "snippets",
+        resave: false,
+        saveUninitialized: false,
         store: new MongoStore({
             mongoUrl: dbConnectionString,
         }),
-        resave: false,
-        saveUninitialized: false,
+
     });
     target.use(newSession);
     target.use(passport.initialize());
     target.use(passport.session());
     passport.use(googleStrategy);
     passport.serializeUser((user, done) => {
-        done(null, user);
+        done(null, user._id);
     });
     passport.deserializeUser((id, done) => {
         void async function() {
@@ -34,7 +35,7 @@ function applyPassport(target) {
                 error = e;
             }
             done(error, user);
-        }
+        }();
     })
 }
 

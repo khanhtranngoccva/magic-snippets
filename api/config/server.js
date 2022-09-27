@@ -6,7 +6,8 @@ const morgan = require("morgan");
 const applyPassport = require("./passport");
 
 app.use(express.urlencoded({
-    extended: true
+    extended: true,
+    limit: "50MB",
 }));
 app.use(express.json());
 app.set("view engine", "ejs");

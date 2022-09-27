@@ -1,0 +1,30 @@
+.windowPane {
+    flex: none;
+    display: flex;
+    color: white;
+    padding-inline: 0.5rem;
+    background: #444;
+    align-items: center;
+    column-gap: 0.25rem;
+}
+
+.windowPane h2 {
+    font-size: 1rem;
+    margin-left: 0.25rem;
+    margin-block: 0.25rem;
+}
+
+.decorativeButton {
+    width: 0.75rem;
+    aspect-ratio: 1/1;
+    background: #ff4400;
+    border-radius: 50%;
+}
+
+.decorativeButton:nth-of-type(2) {
+    background: #ff8000;
+}
+
+.decorativeButton:nth-of-type(3) {
+    background: #3fe73f;
+}
