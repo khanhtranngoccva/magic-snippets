@@ -11,7 +11,6 @@ export default function Navbar() {
     const {snippetData, snippetLastSave} = React.useContext(EditorContext);
     const {userInfo} = React.useContext(UserContext);
 
-
     function updateName(value) {
         snippetData.contents.name = value;
     }

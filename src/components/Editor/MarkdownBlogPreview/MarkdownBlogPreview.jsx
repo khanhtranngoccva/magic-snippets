@@ -1,7 +1,7 @@
 import PreviewFrame from "../PreviewFrame/PreviewFrame";
 import classes from "./MarkdownBlogPreview.module.css"
 import WindowPane from "../../WindowPane/WindowPane";
-import MarkdownPreviewContent from "../MarkdownPreviewContent/MarkdownPreviewContent";
+import MarkdownPreviewContent from "../../MarkdownPreviewContent/MarkdownPreviewContent";
 import React from "react";
 
 export default function MarkdownBlogPreview() {

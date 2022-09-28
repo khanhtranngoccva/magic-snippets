@@ -1,0 +1,8 @@
+.markdownViewer {
+    position: absolute;
+    min-width: 100%;
+    top: 100%;
+    padding: 1rem 2rem;
+    color: var(--primary);
+    background: var(--secondary);
+}

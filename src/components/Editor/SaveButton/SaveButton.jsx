@@ -10,17 +10,14 @@ export default function SaveButton() {
 
     const timeoutRef = React.useRef(null);
 
-    const saveFunction = React.useCallback(async () => {
-        console.log("Saving...");
-        setSaveState("processing");
+    async function saveFunction() {
         const success = await editorContext.saveSnippet();
         if (success) {
             setSaveState("success");
         } else {
             setSaveState("failure");
         }
-    }, []);
-
+    }
 
     React.useEffect(() => {
         clearTimeout(timeoutRef.current);

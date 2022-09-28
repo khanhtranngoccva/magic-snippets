@@ -30,6 +30,7 @@ export const EditorContext = React.createContext({
     deleteSnippet: null,
     createSnippet: null,
     updateSnippet: null,
+    remixSnippet: null,
     blogMode: false,
     setBlogMode: null,
 });
@@ -49,13 +50,8 @@ export default function EditorContextWrapper(props) {
     const [currentField, setCurrentField] = React.useState("HTMLSnippet");
 
     React.useEffect(() => {
-        const result = JSON.parse(JSON.stringify(snippetLastSave));
-        setSnippetData(result);
-    }, [snippetLastSave]);
-    React.useEffect(() => {
         if (params.snippetID) {
             api.getJSON(`/api/snippets/view/${params.snippetID}`).then(result => {
-                console.log(result);
                 setSnippetLastSave({
                     creator: result.data.creator,
                     _contents: {
@@ -69,6 +65,10 @@ export default function EditorContextWrapper(props) {
             })
         }
     }, [params.snippetID]);
+    React.useEffect(() => {
+        const result = JSON.parse(JSON.stringify(snippetLastSave));
+        setSnippetData(result);
+    }, [snippetLastSave]);
 
     async function deleteSnippet() {
 
@@ -76,6 +76,18 @@ export default function EditorContextWrapper(props) {
     async function createSnippet() {
         try {
             let result = await api.sendJSON("/api/snippets/create", snippetData.contents);
+            if (result.success) {
+                navigate(`/edit/${result.data._id}`);
+            }
+            return result.success;
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
+    }
+    async function remixSnippet() {
+        try {
+            let result = await api.sendJSON(`/api/snippets/remix/${params.snippetID}`, {});
             if (result.success) {
                 navigate(`/edit/${result.data._id}`);
             }
@@ -121,6 +133,7 @@ export default function EditorContextWrapper(props) {
         deleteSnippet,
         createSnippet,
         editSnippet,
+        remixSnippet,
         snippetData,
         snippetLastSave,
         currentField,

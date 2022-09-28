@@ -12,7 +12,6 @@ let database = new mongoose.Mongoose();
 function connect() {
     console.log(dbConnectionString);
     database.connect(dbConnectionString).catch(e => {
-        console.log(e.message);
         setTimeout(connect, 5000);
     });
 }

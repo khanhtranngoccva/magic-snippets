@@ -1,5 +1,6 @@
 const Snippet = require("../models/Snippet");
 const User = require("../models/User");
+const SnippetLike = require("../models/SnippetLike");
 const express = require("express");
 const path = require("path");
 
@@ -42,39 +43,6 @@ module.exports = {
         }
     },
     /**
-     * Like a code snippet.
-     * @param req {express.Request} Request object.
-     * @param res {express.Response} Response object.
-     * @param req.params.snippetID The ID of the snippet to like.
-     * @route PUT /api/snippets/like/:snippetID
-     * @returns {Promise<void>}
-     */
-    likeSnippet: async function (req, res) {
-        try {
-            if (!req.user) {
-                res.status(401).json({
-                    success: false,
-                    reason: "You must sign in to like a snippet.",
-                    data: null,
-                });
-            } else {
-                const snippet = await Snippet.findOneAndUpdate({
-                    id: req.params.id,
-                }, {
-                    $inc: {
-                        likes: 1,
-                    }
-                });
-                res.json({
-                    success: true,
-                    data: snippet,
-                });
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    },
-    /**
      * Delete a code snippet.
      * @param req {express.Request} Request object.
      * @param res {express.Response} Response object.
@@ -100,6 +68,8 @@ module.exports = {
                     });
                 } else {
                     await Snippet.deleteOne(req.params.id);
+                    await SnippetLike.deleteMany({snippetID: req.params.id});
+                    await Comment.deleteMany({snippetID: req.params.id});
                     res.send({
                         success: true,
                         data: null,
@@ -187,7 +157,7 @@ module.exports = {
             console.error(e);
         }
     },
-    previewSnippet: async (req, res) => {
+    previewSnippet: async function (req, res) {
         try {
             res.render(path.join(__dirname, "..", "views", "preview.ejs"), {
                 HTMLSnippet: req.body.HTMLSnippet,
@@ -204,7 +174,7 @@ module.exports = {
      * @param res
      * @returns {Promise<void>}
      */
-    getSnippet: async (req, res) => {
+    getSnippet: async function (req, res) {
         try {
             const currentSnippet = await Snippet.findById(req.params.id).lean();
             if (!currentSnippet) {
@@ -224,5 +194,38 @@ module.exports = {
         } catch (e) {
             console.error(e);
         }
-    }
+    },
+    remixSnippet: async function (req, res) {
+        try {
+            if (!req.user) {
+                res.status(401).json({
+                    success: false,
+                    reason: "You must sign in to remix a snippet.",
+                    data: null,
+                });
+            } else {
+                const originalSnippet = await Snippet.findById(req.params.id);
+                if (!originalSnippet) {
+                    res.status(404).json({
+                        success: false,
+                        reason: "The snippet does not exist, or has been deleted.",
+                        data: null,
+                    });
+                }
+                const newSnippet = await Snippet.create({
+                    userID: req.user.id,
+                    name: originalSnippet.name,
+                    HTMLSnippet: originalSnippet.HTMLSnippet,
+                    CSSSnippet: originalSnippet.CSSSnippet,
+                    JSSnippet: originalSnippet.JSSnippet,
+                });
+                res.json({
+                    success: true,
+                    data: newSnippet,
+                });
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    },
 }

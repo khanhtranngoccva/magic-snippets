@@ -10,19 +10,23 @@ export const UserContext = React.createContext({
         displayName: null,
         profilePicture: null,
     },
+    userInfoFetched: false,
 });
 
 export function UserContextWrapper(props) {
     const [userInfo, setUserInfo] = React.useState(null);
+    const [userInfoFetched, setUserInfoFetched] = React.useState(false);
 
     React.useEffect(() => {
         api.getJSON("/api/auth/currentUser").then(result => {
             setUserInfo(result.data);
+            setUserInfoFetched(true);
         });
     }, []);
 
     const contextObject = {
         userInfo,
+        userInfoFetched,
     }
 
     return <UserContext.Provider value={contextObject}>

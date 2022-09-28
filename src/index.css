@@ -6,6 +6,7 @@
   font-size: 1rem;
   font-family: "Lato", system-ui;
   --primary: white;
+  --primary-translucent: #cbcbcb;
   --secondary: #3d3d3d;
   --accent1: #171717;
   --accent2: #626262;

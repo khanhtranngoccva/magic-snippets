@@ -8,3 +8,29 @@
 .flexOverlayColumn {
     flex-direction: column;
 }
+
+.scrollable {
+    overflow: auto;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.relative {
+    position: relative;
+}
+
+.scrollDownBanner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    gap: 0.5rem;
+    color: var(--primary-translucent);
+    --fa-animation-duration: 5s;
+}
+
+.scrollDownBanner p {
+    margin-block: 0;
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import {EditorContext} from "../../../contexts/EditorContext";
+import {EditorContext} from "../../contexts/EditorContext";
 import Markdown from "marked-react"
 
 export default function MarkdownPreviewContent() {
