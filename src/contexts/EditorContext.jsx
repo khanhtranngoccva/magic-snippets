@@ -1,12 +1,12 @@
 import React from "react";
 import {useParams} from "react-router-dom";
 import api from "../helpers/api";
+import {useNavigate} from "react-router-dom";
 
 export const EditorContext = React.createContext({
     snippetData: {
-        _name: null,
-        name: null,
         _contents: {
+            name: null,
             HTMLSnippet: null,
             CSSSnippet: null,
             JSSnippet: null,
@@ -15,9 +15,9 @@ export const EditorContext = React.createContext({
         contents: {},
     },
     snippetLastSave: {
-        _name: null,
         creator: null,
         _contents: {
+            name: null,
             HTMLSnippet: null,
             CSSSnippet: null,
             JSSnippet: null,
@@ -33,40 +33,68 @@ export const EditorContext = React.createContext({
 });
 
 export default function EditorContextWrapper(props) {
-    const params = {useParams};
+    const navigate = useNavigate();
+    const params = useParams();
 
     const [blogMode, setBlogMode] = React.useState(false);
     const [snippetLastSave, setSnippetLastSave] = React.useState({
-        _name: null,
         creator: null,
         _contents: {},
     });
     const [snippetData, setSnippetData] = React.useState({
-        _name: null,
         _contents: {},
     });
     const [currentField, setCurrentField] = React.useState("HTMLSnippet");
 
     React.useEffect(() => {
-        setSnippetData(JSON.parse(JSON.stringify(snippetLastSave)));
+        const result = JSON.parse(JSON.stringify(snippetLastSave));
+        setSnippetData(result);
     }, [snippetLastSave]);
+    React.useEffect(() => {
+        if (params.snippetID) {
+            api.getJSON(`/api/snippets/view/${params.snippetID}`).then(result => {
+                setSnippetLastSave({
+                    creator: result.data.creator,
+                    _contents: {
+                        name: result.data.name,
+                        HTMLSnippet: result.data.HTMLSnippet,
+                        CSSSnippet: result.data.CSSSnippet,
+                        JSSnippet: result.data.JSSnippet,
+                        blogContent: result.data.blogContent,
+                    }
+                })
+            })
+        }
+    }, [params.snippetID]);
 
     const deleteSnippet = React.useCallback(async (data) => {
 
     }, [params.snippetID]);
-    const saveSnippet = React.useCallback(async (data) => {
+    async function saveSnippet() {
         if (!params.snippetID) {
-            await api.sendJSON("/api/snippets/create", {
-
-            });
+            try {
+                let result = await api.sendJSON("/api/snippets/create", snippetData.contents);
+                if (result.success) {
+                    navigate(`/edit/${result.data._id}`);
+                }
+                return result.success;
+            } catch (e) {
+                console.error(e);
+                return false;
+            }
         } else {
-            await api.sendJSON("/api/snippets/edit", {
-
-            }, {
-                method: "PUT",
-            });
+            try {
+                const result = await api.sendJSON(`/api/snippets/edit/${params.snippetID}`, snippetData.contents, {
+                    method: "PUT",
+                });
+                console.log(result);
+                return result.success;
+            } catch (e) {
+                console.error(e);
+                return false;
+            }
         }
-    }, [params.snippetID]);
+    }
 
     snippetData.contents = new Proxy(snippetData._contents, {
         get(target, key) {
@@ -78,17 +106,6 @@ export default function EditorContextWrapper(props) {
             return true;
         }
     });
-    try {
-        Object.defineProperty(snippetData, "name", {
-            get() {
-                return this._name;
-            },
-            set(data) {
-                this._name = data;
-                setSnippetData({...this});
-            }
-        })
-    } catch (e) {}
 
     const contextObject = {
         saveSnippet,

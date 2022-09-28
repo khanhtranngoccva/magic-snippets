@@ -1,4 +1,5 @@
 const Snippet = require("../models/Snippet");
+const User = require("../models/User");
 const express = require("express");
 const path = require("path");
 
@@ -29,6 +30,7 @@ module.exports = {
                     HTMLSnippet: req.body.HTMLSnippet,
                     CSSSnippet: req.body.CSSSnippet,
                     JSSnippet: req.body.JSSnippet,
+                    blogContent: req.body.blogContent,
                 });
                 res.json({
                     success: true,
@@ -171,6 +173,7 @@ module.exports = {
                             HTMLSnippet: req.body.HTMLSnippet,
                             CSSSnippet: req.body.CSSSnippet,
                             JSSnippet: req.body.JSSnippet,
+                            blogContent: req.body.blogContent,
                         }
                     });
                     res.json({
@@ -191,6 +194,32 @@ module.exports = {
                 CSSSnippet: req.body.CSSSnippet,
                 JSSnippet: req.body.JSSnippet,
             });
+        } catch (e) {
+            console.error(e);
+        }
+    },
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    getSnippet: async (req, res) => {
+        try {
+            const currentSnippet = await Snippet.findById(req.params.id);
+            if (!currentSnippet) {
+                res.status(404).json({
+                    success: false,
+                    reason: "Not found",
+                });
+            } else {
+                currentSnippet.creator = await User.getPublicInfo(currentSnippet.userID);
+                console.log(currentSnippet.creator);
+                res.json({
+                    success: true,
+                    data: currentSnippet,
+                })
+            }
         } catch (e) {
             console.error(e);
         }

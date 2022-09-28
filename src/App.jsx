@@ -1,9 +1,8 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
 import {UserContextWrapper} from "./contexts/UserContext";
 import {Routes, Route} from "react-router-dom";
 import EditorView from "./views/EditorView";
+import ViewerView from "./views/ViewerView";
 
 function App() {
   return <UserContextWrapper>
@@ -13,6 +12,9 @@ function App() {
           }></Route>
           <Route path="/edit/:snippetID" element={
               <EditorView></EditorView>
+          }></Route>
+          <Route path="/view/:snippetID" element={
+              <ViewerView></ViewerView>
           }></Route>
       </Routes>
   </UserContextWrapper>

@@ -6,8 +6,9 @@
   font-size: 1rem;
   font-family: "Lato", system-ui;
   --primary: white;
-  --secondary: #2b2b2b;
+  --secondary: #3d3d3d;
   --accent1: #171717;
+  --accent2: #626262;
 }
 
 html {

@@ -8,6 +8,7 @@ export default function PreviewFrame(props) {
     const snippetContext = React.useContext(EditorContext);
     const iframeName = React.useMemo(() => {
         iFrameCounter++;
+        console.log("__previewIframe_" + iFrameCounter);
         return "__previewIframe_" + iFrameCounter;
     }, []);
     const timeoutRef = React.useRef(null);

@@ -8,12 +8,10 @@ const SnippetSchema = new mongoose.Schema({
         ref: "User",
     },
     name: {
-        required: true,
         type: String,
         default: "An unnamed magic snippet!",
     },
     likes: {
-        required: true,
         type: Number,
         default: 0,
     },
@@ -23,22 +21,18 @@ const SnippetSchema = new mongoose.Schema({
         default: Date.now,
     },
     HTMLSnippet: {
-        required: true,
         type: String,
         default: "",
     },
     CSSSnippet: {
-        required: true,
         type: String,
         default: "",
     },
     JSSnippet: {
-        required: true,
         type: String,
         default: "",
     },
     blogContent: {
-        required: true,
         type: String,
         default: "",
     }

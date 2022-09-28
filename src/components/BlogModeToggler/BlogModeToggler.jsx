@@ -1,5 +1,5 @@
 import React from "react";
-import {EditorContext} from "../../../contexts/EditorContext";
+import {EditorContext} from "../../contexts/EditorContext";
 import ActionButton from "../ActionButton/ActionButton";
 import classes from "./BlogModeToggler.module.css";
 

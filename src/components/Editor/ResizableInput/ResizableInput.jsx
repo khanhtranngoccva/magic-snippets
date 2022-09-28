@@ -18,7 +18,6 @@ export default function ResizableInput(props) {
     }, [props.defaultValue]);
 
     return <div className={`${classes.inputContainer}`}>
-        {/*<span className={`${classes.reusableInputSpan} ${props.className || ""}`}>assssssssssa</span>*/}
         <pre className={`${classes.reusableInputSpan} ${props.className || ""}`}>{`${spanState}`}</pre>
         <input {...props} onInput={update} ref={inputRef} className={`${classes.reusableInput} ${props.className || ""}`}></input>
     </div>

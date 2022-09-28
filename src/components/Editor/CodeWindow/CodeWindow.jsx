@@ -22,7 +22,7 @@ export default function CodeWindow(props) {
         <CodeMirror className={classes.windowInner}
                     width={"100%"}
                     height={"100%"}
-                    value={snippetData._contents[props.field] ?? ""}
+                    value={snippetData.contents[props.field] ?? snippetLastSave._contents[props.field] ?? ""}
                     theme={darcula}
                     extensions={props.extensions}
                     onChange={update}>

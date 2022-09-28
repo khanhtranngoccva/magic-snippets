@@ -9,7 +9,10 @@ app.use(express.urlencoded({
     extended: true,
     limit: "50MB",
 }));
-app.use(express.json());
+app.use(express.json({
+    extended: true,
+    limit: "50MB",
+}));
 app.set("view engine", "ejs");
 
 applyPassport(app);

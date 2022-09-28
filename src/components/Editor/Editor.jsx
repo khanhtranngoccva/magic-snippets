@@ -9,37 +9,69 @@ import PreviewFrame from "./PreviewFrame/PreviewFrame";
 import Navbar from "./Navbar/Navbar";
 import React from "react";
 import MarkdownPreview from "./MarkdownBlogPreview/MarkdownBlogPreview";
+import ActionButton from "../ActionButton/ActionButton";
 
 let htmlExt = html();
 let cssExt = css();
 let jsExt = javascript();
 let markdownExt = markdown();
 
-function EditorView1() {
-    const previewFrame = React.useMemo(() => {
-        return <PreviewFrame></PreviewFrame>
-    }, []);
+const codeWindowData = [
+    {
+        field: "HTMLSnippet",
+        extensions: [htmlExt],
+        title: "HTML",
+    },
+    {
+        field: "CSSSnippet",
+        extensions: [cssExt],
+        title: "CSS",
+    },
+    {
+        field: "JSSnippet",
+        extensions: [jsExt],
+        title: "JS",
+    },
+];
 
-    return <div className={classes.container}>
-        <Navbar></Navbar>
-        <div className={classes.codeWindowContainer}>
-            <CodeWindow field="HTMLSnippet" extensions={[htmlExt]} title="HTML" className={classes.codeWindow}></CodeWindow>
-            <CodeWindow field="CSSSnippet" extensions={[cssExt]} title="CSS" className={classes.codeWindow}></CodeWindow>
-            <CodeWindow field="JSSnippet" extensions={[jsExt]} title="JavaScript" className={classes.codeWindow}></CodeWindow>
+function EditorView1() {
+    const [currentTab, setCurrentTab] = React.useState("HTMLSnippet");
+
+    const codeWindows = codeWindowData.map(data => {
+        return <CodeWindow key={data.field} field={data.field} extensions={data.extensions} title={data.title}
+                    className={`${classes.codeWindow} ${currentTab === data.field ? classes.smallScreenVisible : ""}`}>
+        </CodeWindow>
+    });
+
+    const selectCodeButtons = codeWindowData.map(data => {
+       return <ActionButton key={data.field} className={`${classes.selectCodeButton} ${data.field === currentTab ? classes.selected : ""}`} onClick={() => setCurrentTab(data.field)}>
+           {data.title}
+       </ActionButton>
+    });
+
+    return <div className={classes.fullScreenFlexColumn}>
+        <div className={classes.selectCodeContainer}>
+            {selectCodeButtons}
         </div>
-        {previewFrame}
-    </div>;
+        <div className={classes.codeWindowContainer}>
+            {codeWindows}
+        </div>
+        <div className={classes.fullScreenFlex}>
+            <div className={classes.fullScreenFlex}>
+                <PreviewFrame></PreviewFrame>
+            </div>
+        </div>
+    </div>
 }
 
-function EditorView2() {
-    return <div className={classes.container}>
-        <Navbar></Navbar>
+function EditorView2(props) {
+    return <div className={`${props.className || ""} ${classes.fullScreenFlex}`}>
         <div className={classes.blogEditorContainer}>
             <div className={classes.containerElement}>
                 <CodeWindow field="blogContent" extensions={[markdownExt]} title="Edit blog contents" className={`${classes.codeWindow} ${classes.blogWindow}`}></CodeWindow>
             </div>
             <div className={classes.containerElement}>
-                <MarkdownPreview field="blogContent" extensions={[markdownExt]} title="Edit blog contents" className={`${classes.codeWindow} ${classes.blogWindow}`}></MarkdownPreview>
+                <MarkdownPreview extensions={[markdownExt]} title="Edit blog contents" className={`${classes.codeWindow} ${classes.blogWindow}`}></MarkdownPreview>
             </div>
         </div>
     </div>;
@@ -48,21 +80,21 @@ function EditorView2() {
 export default function Editor() {
     const snippetContext = React.useContext(EditorContext);
 
-    const view1 = React.useMemo(() => {
-        return <EditorView1></EditorView1>;
-    }, []);
-    const view2 = React.useMemo(() => {
-        return <EditorView2></EditorView2>;
-    }, []);
-
     let currentUI;
     if (!snippetContext.blogMode) {
-        currentUI = view1;
+        currentUI = <div className={`${classes.editorContainer} ${classes.fullScreenFlex}`}>
+            <EditorView1></EditorView1>
+            <EditorView2 className={`${classes.blogEditorOverlay} ${classes.swipeHidden}`}></EditorView2>
+        </div>;
     } else {
-        if (!snippetContext.snippetLastSave.creator) {
-            currentUI = view2;
-        }
+        currentUI = <div className={`${classes.editorContainer} ${classes.fullScreenFlex}`}>
+            <EditorView1></EditorView1>
+            <EditorView2 className={`${classes.blogEditorOverlay}`}></EditorView2>
+        </div>;
     }
 
-    return currentUI;
+    return <div className={classes.container}>
+        <Navbar></Navbar>
+        {currentUI}
+    </div>;
 }
