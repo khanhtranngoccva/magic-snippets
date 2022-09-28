@@ -57,7 +57,7 @@ const User = database.model("User", UserSchema);
 
 User.getPublicInfo = async function(id) {
     const user = await User.findById(id);
-    const publicKeys = ["id", "userName", "displayName", "name", "profilePicture"];
+    const publicKeys = ["_id", "userName", "displayName", "name", "profilePicture"];
     return publicKeys.reduce((acc, key) => {
         acc[key] = user[key];
         return acc;

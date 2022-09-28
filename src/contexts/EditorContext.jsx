@@ -28,8 +28,10 @@ export const EditorContext = React.createContext({
     snippetID: null,
     saveSnippet: null,
     deleteSnippet: null,
+    createSnippet: null,
+    updateSnippet: null,
     blogMode: false,
-    setBlogMode: undefined,
+    setBlogMode: null,
 });
 
 export default function EditorContextWrapper(props) {
@@ -53,6 +55,7 @@ export default function EditorContextWrapper(props) {
     React.useEffect(() => {
         if (params.snippetID) {
             api.getJSON(`/api/snippets/view/${params.snippetID}`).then(result => {
+                console.log(result);
                 setSnippetLastSave({
                     creator: result.data.creator,
                     _contents: {
@@ -67,32 +70,38 @@ export default function EditorContextWrapper(props) {
         }
     }, [params.snippetID]);
 
-    const deleteSnippet = React.useCallback(async (data) => {
+    async function deleteSnippet() {
 
-    }, [params.snippetID]);
+    }
+    async function createSnippet() {
+        try {
+            let result = await api.sendJSON("/api/snippets/create", snippetData.contents);
+            if (result.success) {
+                navigate(`/edit/${result.data._id}`);
+            }
+            return result.success;
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
+    }
+    async function editSnippet() {
+        try {
+            const result = await api.sendJSON(`/api/snippets/edit/${params.snippetID}`, snippetData.contents, {
+                method: "PUT",
+            });
+            console.log(result);
+            return result.success;
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
+    }
     async function saveSnippet() {
         if (!params.snippetID) {
-            try {
-                let result = await api.sendJSON("/api/snippets/create", snippetData.contents);
-                if (result.success) {
-                    navigate(`/edit/${result.data._id}`);
-                }
-                return result.success;
-            } catch (e) {
-                console.error(e);
-                return false;
-            }
+            return await createSnippet();
         } else {
-            try {
-                const result = await api.sendJSON(`/api/snippets/edit/${params.snippetID}`, snippetData.contents, {
-                    method: "PUT",
-                });
-                console.log(result);
-                return result.success;
-            } catch (e) {
-                console.error(e);
-                return false;
-            }
+            return await editSnippet();
         }
     }
 
@@ -110,6 +119,8 @@ export default function EditorContextWrapper(props) {
     const contextObject = {
         saveSnippet,
         deleteSnippet,
+        createSnippet,
+        editSnippet,
         snippetData,
         snippetLastSave,
         currentField,

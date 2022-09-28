@@ -206,18 +206,19 @@ module.exports = {
      */
     getSnippet: async (req, res) => {
         try {
-            const currentSnippet = await Snippet.findById(req.params.id);
+            const currentSnippet = await Snippet.findById(req.params.id).lean();
             if (!currentSnippet) {
                 res.status(404).json({
                     success: false,
                     reason: "Not found",
                 });
             } else {
-                currentSnippet.creator = await User.getPublicInfo(currentSnippet.userID);
-                console.log(currentSnippet.creator);
                 res.json({
                     success: true,
-                    data: currentSnippet,
+                    data: {
+                        ...currentSnippet,
+                        creator: await User.getPublicInfo(currentSnippet.userID),
+                    },
                 })
             }
         } catch (e) {

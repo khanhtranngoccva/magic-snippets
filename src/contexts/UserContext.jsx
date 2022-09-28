@@ -2,7 +2,14 @@ import api from "../helpers/api";
 import React from "react";
 
 export const UserContext = React.createContext({
-    userInfo: undefined,
+    userInfo: {
+        id: null,
+        name: null,
+        email: null,
+        userName: null,
+        displayName: null,
+        profilePicture: null,
+    },
 });
 
 export function UserContextWrapper(props) {

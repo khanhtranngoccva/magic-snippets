@@ -4,6 +4,7 @@ module.exports = {
         let processedUserInfo;
         if (user) {
             processedUserInfo = {
+                _id: user._id,
                 name: user.name,
                 email: user.email,
                 userName: user.userName,
