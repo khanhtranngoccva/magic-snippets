@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const applyPassport = require("./passport");
 
+app.enable("trust proxy");
 app.use((req, res, next) => {
     res.set("Origin-Agent-Cluster", "?1");
     next();

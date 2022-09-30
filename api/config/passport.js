@@ -19,7 +19,6 @@ function applyPassport(target) {
         }),
 
     });
-    target.enable("trust proxy");
     target.use(newSession);
     target.use(passport.initialize());
     target.use(passport.session());
