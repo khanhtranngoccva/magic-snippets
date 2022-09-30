@@ -6,6 +6,7 @@ const googleStrategy = new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/api/auth/google/callback",
     proxy: true,
+    passReqToCallback: true,
 }, async (accessToken, refreshToken, profile, next) => {
     try {
         const currentEmail = profile.emails[0].value;
