@@ -24,7 +24,7 @@ app.set("view engine", "ejs");
 applyPassport(app);
 
 let port;
-if (process.env.PRODUCTION) {
+if (process.env.mode === "production") {
     port = process.env.PORT || 443;
 } else {
     port = process.env.PORT_DEVELOPMENT;

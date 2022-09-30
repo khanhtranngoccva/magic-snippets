@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 let dbConnectionString;
-if (process.env.PRODUCTION) {
+if (process.env.mode === "production") {
     dbConnectionString = process.env.MONGODB_DATABASE_PRODUCTION;
 } else {
     dbConnectionString = process.env.MONGODB_DATABASE_DEVELOPMENT;
