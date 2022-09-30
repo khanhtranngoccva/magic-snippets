@@ -1,0 +1,37 @@
+.button {
+    background: var(--primary);
+    color: var(--secondary);
+    position: relative;
+    overflow: hidden;
+    transition: 0.25s color, 0.25s background;
+}
+
+.liked {
+    color: white;
+    background: #ff8383;
+}
+
+.liked i {
+    animation: pop 0.5s;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+        animation-timing-function: ease-in;
+    }
+
+    40% {
+        transform: scale(0.7);
+        animation-timing-function: ease-out;
+    }
+
+    70% {
+        transform: scale(1.1);
+        animation-timing-function: ease;
+    }
+}
+
+.button span, .button i {
+    z-index: 1;
+}

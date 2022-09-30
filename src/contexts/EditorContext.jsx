@@ -71,7 +71,18 @@ export default function EditorContextWrapper(props) {
     }, [snippetLastSave]);
 
     async function deleteSnippet() {
-
+        try {
+            let result = await api.sendJSON(`/api/snippets/delete/${params.snippetID}`, {}, {
+                method: "DELETE",
+            });
+            if (result.success) {
+                navigate(`/`);
+            }
+            return result.success;
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
     }
     async function createSnippet() {
         try {

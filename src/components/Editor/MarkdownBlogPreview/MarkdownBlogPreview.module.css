@@ -15,9 +15,11 @@
     overflow: hidden;
 }
 
-.markdownPreviewContainer {
+.container .markdownPreviewContainer {
     width: 100%;
     padding: 0.5rem;
+    background-color: revert;
+    color: white;
 }
 
 .windowInner {

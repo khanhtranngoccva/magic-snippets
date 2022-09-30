@@ -84,23 +84,25 @@ module.exports = {
      * Get the code snippets in the order from newest to oldest.
      * @param {express.Request} req Request object.
      * @param {express.Response} res Response object.
-     * @param {number|string} req.params.page The page of the request. Gets converted to a number.
-     * @route GET /api/snippets/newest/:page
+     * @param {number|string} req.query.page The page of the request. Gets converted to a number.
+     * @route GET /api/snippets/browse/newest/
      * @returns {Promise<void>}
      */
     getNewest: async function (req, res) {
         try {
-            const pageSize = 6;
-            const curPage = +req.params.page ?? 1;
-            const firstIndex = (curPage - 1) * pageSize;
-            const nextIndex = curPage * pageSize;
-            const snippets = await Snippet.find().sort({
-                createdAt: -1
-            }).slice(firstIndex, nextIndex).lean();
-            console.log(snippets);
+            const result = await Snippet.paginate({}, {
+                lean: true,
+                sort: {createdAt: -1},
+                limit: 12,
+                page: +req.query.page,
+                forceCountFn: true,
+            });
+            await Promise.all(result.docs.map(async snippet => {
+                snippet.creator = await User.getPublicInfo(snippet.userID);
+            }));
             res.json({
                 success: true,
-                data: snippets,
+                data: result,
             });
         } catch (e) {
             console.error(e);

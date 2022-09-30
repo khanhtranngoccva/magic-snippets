@@ -1,0 +1,56 @@
+.flexOverlay, .flexOverlayColumn {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.flexOverlayColumn {
+    flex-direction: column;
+}
+
+.scrollable {
+    overflow: auto;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.relative {
+    position: relative;
+}
+
+.loader {
+    flex: 1;
+}
+
+.searchResultCardContainer {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    overflow: auto;
+}
+
+.searchResultCardList {
+    display: grid;
+    width: 100%;
+    min-height: 100%;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(1, auto);
+    align-content: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+@media only screen and (min-width: 720px) {
+    .searchResultCardList {
+        grid-template-columns: repeat(2, max-content);
+    }
+}
+
+@media only screen and (min-width: 1280px) {
+    .searchResultCardList {
+        grid-template-columns: repeat(3, max-content);
+    }
+}

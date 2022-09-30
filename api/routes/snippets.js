@@ -7,9 +7,10 @@ router.put("/like/:id", likesController.likeSnippet);
 router.get("/likes/:id", likesController.getSnippetLikes);
 router.get("/like/:id", likesController.checkIfLiked);
 router.put("/edit/:id", snippetController.editSnippet);
-router.delete("/delete", snippetController.deleteSnippet);
+router.delete("/delete/:id", snippetController.deleteSnippet);
 router.get("/view/:id", snippetController.getSnippet);
 router.post("/preview", snippetController.previewSnippet);
 router.post("/remix/:id", snippetController.remixSnippet);
+router.get("/browse/newest/", snippetController.getNewest);
 
 module.exports = router;

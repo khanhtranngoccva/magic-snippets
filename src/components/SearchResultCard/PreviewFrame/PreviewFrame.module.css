@@ -1,0 +1,26 @@
+.container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    position: relative;
+}
+
+/*
+Target viewport: 1920px and 1080px
+ */
+.previewFrame {
+    display: block;
+    width: 1920px;
+    height: 1080px;
+    position: absolute;
+    transform-origin: 0 0;
+    transform: scale(calc(100% / 1920));
+    border: none;
+    background: white;
+}
+
+.iframeLink {
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}

@@ -1,5 +1,6 @@
 const database = require("../config/database").database;
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const SnippetSchema = new mongoose.Schema({
     userID: {
@@ -10,10 +11,6 @@ const SnippetSchema = new mongoose.Schema({
     name: {
         type: String,
         default: "An unnamed magic snippet!",
-    },
-    likes: {
-        type: Number,
-        default: 0,
     },
     createdAt: {
         required: true,
@@ -37,6 +34,8 @@ const SnippetSchema = new mongoose.Schema({
         default: "",
     }
 });
+
+SnippetSchema.plugin(mongoosePaginate);
 
 const Snippet = database.model("Snippet", SnippetSchema);
 module.exports = Snippet;

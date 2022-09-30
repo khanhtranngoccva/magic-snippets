@@ -1,0 +1,35 @@
+.button {
+    background: linear-gradient(to bottom right, #ff6530, #ff8383);
+    position: relative;
+    overflow: hidden;
+}
+
+.button::before {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    content: "";
+    display: block;
+    transition: opacity 0.25s;
+    background: none;
+    position: absolute;
+}
+
+.button span, .button i {
+    z-index: 1;
+}
+
+.failure::before {
+    background: linear-gradient(to bottom right, #ff6530, #ff8383);
+    opacity: 1;
+}
+
+.success {
+    color: black;
+}
+
+.success::before {
+    background: white;
+
+    opacity: 1;
+}

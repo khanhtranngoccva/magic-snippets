@@ -1,4 +1,9 @@
 const api = {
+    /**
+     *
+     * @param endpoint {RequestInfo|URL}
+     * @returns {Promise<any>}
+     */
     async getJSON(endpoint) {
         return (await fetch(endpoint)).json();
     },

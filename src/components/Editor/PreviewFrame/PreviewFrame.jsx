@@ -35,6 +35,6 @@ export default function PreviewFrame(props) {
             <input name="CSSSnippet" value={snippetData._contents.CSSSnippet || ""} readOnly={true}/>
             <input name="JSSnippet" value={snippetData._contents.JSSnippet || ""} readOnly={true}/>
         </form>
-        <iframe className={`${classes.previewFrame} ${props.className}`} name={iframeName}></iframe>
+        <iframe className={`${classes.previewFrame} ${props.className}`} name={iframeName} sandbox={"allow-forms allow-modals allow-pointer-lock allow-same-origin allow-scripts allow-presentation"}></iframe>
     </div>;
 }

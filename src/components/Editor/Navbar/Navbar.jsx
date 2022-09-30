@@ -6,6 +6,7 @@ import ResizableInput from "../ResizableInput/ResizableInput";
 import {UserContext} from "../../../contexts/UserContext";
 import BlogModeToggler from "../../BlogModeToggler/BlogModeToggler";
 import SaveButton from "../SaveButton/SaveButton";
+import DeleteButton from "../DeleteButton/DeleteButton";
 
 export default function Navbar() {
     const {snippetData, snippetLastSave} = React.useContext(EditorContext);
@@ -28,5 +29,6 @@ export default function Navbar() {
         </div>
         <BlogModeToggler></BlogModeToggler>
         <SaveButton></SaveButton>
+        <DeleteButton></DeleteButton>
     </div>;
 }

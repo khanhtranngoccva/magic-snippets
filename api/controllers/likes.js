@@ -95,7 +95,7 @@ module.exports = {
     checkIfLiked: async function (req, res) {
         try {
             const snippet = await Snippet.findById(req.params.id);
-            if (!snippet) {
+            if (!snippet || !req.user) {
                 res.json({
                     success: true,
                     data: {

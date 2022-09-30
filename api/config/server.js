@@ -3,8 +3,14 @@ require("dotenv").config({path: "api/config/config.env"});
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const cors = require("cors");
 const applyPassport = require("./passport");
 
+app.use((req, res, next) => {
+    res.set("Origin-Agent-Cluster", "?1");
+    next();
+});
+app.use(cors());
 app.use(express.urlencoded({
     extended: true,
     limit: "50MB",
