@@ -1,4 +1,8 @@
-require("dotenv").config({path: "api/config/config.env"});
+if (process.env.mode === "production") {
+
+} else {
+    require("dotenv").config({path: "api/config/config.env"});
+}
 
 const express = require("express");
 const app = express();
@@ -8,6 +12,8 @@ const applyPassport = require("./passport");
 
 app.enable("trust proxy");
 app.use((req, res, next) => {
+    // =)
+    req.socket.encrypted = true;
     res.set("Origin-Agent-Cluster", "?1");
     next();
 });
